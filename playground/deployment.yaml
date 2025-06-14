@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xss-playground-deployment
+  labels:
+    app: xss-playground
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xss-playground
+  template:
+    metadata:
+      labels:
+        app: xss-playground
+    spec:
+      containers:
+        - name: xss-playground
+          image: wellstrey/frontendxss:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
