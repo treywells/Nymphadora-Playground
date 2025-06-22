@@ -1,5 +1,5 @@
 # Step 1: Build the React app
-FROM node:20 AS builder
+FROM node:20
 
 WORKDIR /playground
 
@@ -10,20 +10,8 @@ RUN npm install
 # Copy all app files
 COPY . .
 
+EXPOSE 3000
+
 # Build the app
-RUN npm run build
+ENTRYPOINT ["npm","run","dev","--","--host"]
 
-# Step 2: Serve with nginx
-FROM nginx:alpine
-
-# Copy built React files to Nginx's public folder
-COPY --from=builder /playground/dist /usr/share/nginx/html
-
-# Optional: Replace default nginx config (use only if needed)
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
